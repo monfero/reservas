@@ -8,8 +8,8 @@ def print_menu():
     print(f'(5) Mostrar custo de reserva')
     print(f'(6) Saír')
 
-def nova_reserva():
-    print(f'Datos da reserva')
+def nova_reserva(reserva):
+    print(f'Engadir reserva')
     
     # Get codigo
     while True:
@@ -19,6 +19,9 @@ def nova_reserva():
         else:
             print("Error! Codigo debe ser al menos un caracter.")
             
+    # Add codigo to Reserva object's datos dictionary
+    reserva.add_dato('codigo', codigo)
+    
     # Get num_habitacion
     while True:
         try:
@@ -30,6 +33,9 @@ def nova_reserva():
         except ValueError:
             print("Error! Número da habitación debe ser un número enteiro.")
 
+    # Add num_habitacion to Reserva object's datos dictionary
+    reserva.add_dato('num_habitacion', num_habitacion)
+    
     # Get data_ini and data_fin
     while True:
         try:
@@ -51,6 +57,10 @@ def nova_reserva():
         except ValueError:
             print("Error! As datas deben estar no formato dd/mm/aa.")
 
+    # Add data_ini and data_fin to Reserva object's datos dictionary
+    reserva.add_dato('data_ini', data_ini)
+    reserva.add_dato('data_fin', data_fin)
+    
     # Get prezo_habitacion
     while True:
         try:
@@ -62,6 +72,9 @@ def nova_reserva():
         except ValueError:
             print("Error! O prezo debe ser um número enteiro.")
 
+    # Add prezo_habitacion to Reserva object's datos dictionary
+    reserva.add_dato('prezo_habitacion', prezo_habitacion)
+    
     # Get is_reserva_grupal and num_persoas
     while True:
         is_reserva_grupal = input('Trátase dunha reserva grupal?[s/n]: ')
@@ -78,10 +91,17 @@ def nova_reserva():
         print("Error! Por favor, introduce un número entero.")
         num_persoas = input('Dime o número de persoas da reserva: ')
 
-    num_persoas = int(num_persoas)
-    if num_persoas <= 0:
-        print("Error! Número de persoas debe ser mayor que 0.")
+    # Add is_reserva_grupal and num_persoas to Reserva object's datos dictionary
+    reserva.add_dato('is_reserva_grupal', is_reserva_grupal)
+    reserva.add_dato('num_persoas', num_persoas)
 
     print('Reserva finalizada')
+    
+def mostrar_lista_reservas(reservas):
+    print("\nLista de Reservas:\n")
+    for reserva in reservas:
+        reserva.print_values()
+        print("\n")
+    print("\n")
 
     
