@@ -10,12 +10,78 @@ def print_menu():
 
 def nova_reserva():
     print(f'Datos da reserva')
-    codigo=input("Dame o codigo: ")
-    num_habitacion=input("Número de habitación: ")
-    data_ini=input('Data de entrada: ')
-    data_fin=input('Data de saída: ')
-    prezo_habitacion=int(input('Prezo da habitación: '))
-    is_reserva_grupal=input('Trátase dunha reserva grupal?[s/n]: ')
-    if is_reserva_grupal=='s':
-        num_persoas=int(input('Dime o número de persoas da reserva: '))
+    
+    # Get codigo
+    while True:
+        codigo = input("Dame o codigo: ")
+        if len(codigo.strip()) > 0:
+            break
+        else:
+            print("Error! Codigo debe ser al menos un caracter.")
+            
+    # Get num_habitacion
+    while True:
+        try:
+            num_habitacion = int(input("Número de habitación: "))
+            if num_habitacion > 0:
+                break
+            else:
+                print("Error! Número da habitación debe ser maior que 0.")
+        except ValueError:
+            print("Error! Número da habitación debe ser un número enteiro.")
+
+    # Get data_ini and data_fin
+    while True:
+        try:
+            from datetime import datetime
+            data_ini = input('Data de entrada (dd/mm/aaaa): ')
+            data_fin = input('Data de saída (dd/mm/aaaa): ')
+
+            if len(data_ini.strip()) > 0 and len(data_fin.strip()) > 0:
+                # Validate date format
+                datetime.strptime(data_ini, '%d/%m/%Y')
+                datetime.strptime(data_fin, '%d/%m/%Y')
+
+                if data_ini <= data_fin:
+                    break
+                else:
+                    print("Error! A data de entrada debe ser anterior ou igual a data de saída.")
+            else:
+                print("Error! Ambas datas deben ter algún caracter.")
+        except ValueError:
+            print("Error! As datas deben estar no formato dd/mm/aa.")
+
+    # Get prezo_habitacion
+    while True:
+        try:
+            prezo_habitacion = int(input('Prezo da habitación: '))
+            if prezo_habitacion > 0:
+                break
+            else:
+                print("Error! O prezo debe ser maior que 0.")
+        except ValueError:
+            print("Error! O prezo debe ser um número enteiro.")
+
+    # Get is_reserva_grupal and num_persoas
+    while True:
+        is_reserva_grupal = input('Trátase dunha reserva grupal?[s/n]: ')
+        if is_reserva_grupal.lower() == 's':
+            break
+        elif is_reserva_grupal.lower() == 'n':
+            print("Reserva grupal cancelada.")
+            return
+        else:
+            print("Error! O valor debe ser 's' ou 'n'.")
+
+    num_persoas = input('Dime o número de persoas da reserva: ')
+    while not num_persoas.isdigit():
+        print("Error! Por favor, introduce un número entero.")
+        num_persoas = input('Dime o número de persoas da reserva: ')
+
+    num_persoas = int(num_persoas)
+    if num_persoas <= 0:
+        print("Error! Número de persoas debe ser mayor que 0.")
+
+    print('Reserva finalizada')
+
     
