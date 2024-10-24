@@ -73,25 +73,26 @@ class Reserva:
         Args:
             filename (str): Nome do ficheiro no que se gardará a reserva
         """
-  
-        ficheiro_novo = True
+
         try:
             with open(filename, 'r') as f:
                 data = json.load(f)
                 if data:
-                    data.append(self.export_to_json())
-                    ficheiro_novo = False
+                    if isinstance(data, list):
+                        data.append(self.export_to_json())
+                    else:
+                        # data = [data]
+                        # data.append(self.export_to_json())
+                        print("non é unha lista, carajo!")
+                                      
                 else:
                     print("Non hai datos no ficheiro")
                     
         except FileNotFoundError:
-                data = self.export_to_json()
+                data = [self.export_to_json()]
             
             
         with open(filename, 'w') as f:
-            if ficheiro_novo:
-                json.dump([data],f)
-            else:
                 json.dump(data,f)
 
 
@@ -134,11 +135,11 @@ class Reserva_Grupal(Reserva):
         """
         Exporta reserva a lista con obxecto JSON.
         """
-        return [{
+        return {
             "codigo": self.codigo,
             "num_habitacion": self.num_habitacion,
             "data_ini": self.data_ini,
             "data_fin": self.data_fin,
             "prezo_habitacion": self.prezo_habitacion,
             "num_persoas": self.num_persoas
-        }]
+        }
