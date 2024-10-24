@@ -8,6 +8,7 @@ def text2date(data_str):
     except ValueError:
         print("erro")
 
+import json
 
 class Reserva:
 
@@ -52,6 +53,43 @@ class Reserva:
         print(f"Codigo: {self.codigo}, Habitación: {self.num_habitacion}")
         print(f"Entrada: {self.data_ini}, Saída: {self.data_fin}")
         print(f"Prezo habitación: {self.prezo_habitacion}")
+        
+    def export_to_json(self):
+        """
+        Exporta reserva a lista con obxecto JSON.
+        """
+        return [{
+            "codigo": self.codigo,
+            "num_habitacion": self.num_habitacion,
+            "data_ini": self.data_ini,
+            "data_fin": self.data_fin,
+            "prezo_habitacion": self.prezo_habitacion
+        }]
+
+    def save_to_file(self, filename):
+        """
+        Garda reserva a disco
+
+        Args:
+            filename (str): Nome do ficheiro no que se gardará a reserva
+        """
+  
+        try:
+            with open(filename, 'r') as f:
+                data = json.load(f)
+                if data:
+                    data.append(self.export_to_json()[0])
+                else:
+                    print("Non hai datos no ficheiro")
+                    
+        except FileNotFoundError:
+                data = self.export_to_json()
+            
+            
+        with open(filename, 'w') as f:
+                json.dump(data,f)
+
+
 
 class Reserva_Individual(Reserva):
     def __init__(self, codigo, num_habitacion, data_ini, data_fin, prezo_habitacion):
@@ -87,3 +125,16 @@ class Reserva_Grupal(Reserva):
     def print_reserva(self):
         super().print_reserva()
         print(f"Custo Reserva: {self.get_custo_reserva()}")
+
+    def export_to_json(self):
+        """
+        Exporta reserva a lista con obxecto JSON.
+        """
+        return [{
+            "codigo": self.codigo,
+            "num_habitacion": self.num_habitacion,
+            "data_ini": self.data_ini,
+            "data_fin": self.data_fin,
+            "prezo_habitacion": self.prezo_habitacion,
+            "num_persoas": self.num_persoas
+        }]

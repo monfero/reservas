@@ -82,9 +82,11 @@ def nova_reserva():
         else:
             print("Error! O valor debe ser 's' ou 'n'.")
 
-    print('Reserva finalizada')
+    print('Reserva finalizada\n')
     
     reserva.print_reserva()
+    reserva.save_to_file('reservas.json')
+    print("\n")
     
     return reserva
     
