@@ -58,13 +58,13 @@ class Reserva:
         """
         Exporta reserva a lista con obxecto JSON.
         """
-        return [{
+        return {
             "codigo": self.codigo,
             "num_habitacion": self.num_habitacion,
             "data_ini": self.data_ini,
             "data_fin": self.data_fin,
             "prezo_habitacion": self.prezo_habitacion
-        }]
+        }
 
     def save_to_file(self, filename):
         """
@@ -74,11 +74,13 @@ class Reserva:
             filename (str): Nome do ficheiro no que se gardará a reserva
         """
   
+        ficheiro_novo = True
         try:
             with open(filename, 'r') as f:
                 data = json.load(f)
                 if data:
-                    data.append(self.export_to_json()[0])
+                    data.append(self.export_to_json())
+                    ficheiro_novo = False
                 else:
                     print("Non hai datos no ficheiro")
                     
@@ -87,8 +89,10 @@ class Reserva:
             
             
         with open(filename, 'w') as f:
+            if ficheiro_novo:
+                json.dump([data],f)
+            else:
                 json.dump(data,f)
-
 
 
 class Reserva_Individual(Reserva):
