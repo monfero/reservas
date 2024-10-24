@@ -18,8 +18,8 @@ while opcion!=6:
     
     match(opcion):
         case 1: 
-            reserva = Reserva()  # Instancia la clase Reserva
-            nova_reserva(reserva)  # Pasa la instancia de Reserva a nova_reserva
+            #reserva = Reserva()  # Instancia la clase Reserva
+            reserva = nova_reserva()  # Pasa la instancia de Reserva a nova_reserva
             lista_reservas.append(reserva)
         case 3:
             mostrar_lista_reservas(lista_reservas)

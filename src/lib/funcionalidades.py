@@ -1,4 +1,4 @@
-
+from lib.reserva import *
 
 def print_menu():
     print(f'(1) Nova reserva')
@@ -8,22 +8,18 @@ def print_menu():
     print(f'(5) Mostrar custo de reserva')
     print(f'(6) Saír')
 
-def nova_reserva(reserva):
+def nova_reserva():
     print(f'Engadir reserva')
     
-    # Get codigo
     while True:
-        codigo = input("Dame o codigo: ")
-        if len(codigo.strip()) > 0:
-            break
-        else:
-            print("Error! Codigo debe ser al menos un caracter.")
+       # Get codigo
+        while True:
+            codigo = input("Dame o codigo: ")
+            if len(codigo.strip()) > 0:
+                break
+            else:
+                print("Error! Codigo debe ser al menos un caracter.")
             
-    # Add codigo to Reserva object's datos dictionary
-    reserva.add_dato('codigo', codigo)
-    
-    # Get num_habitacion
-    while True:
         try:
             num_habitacion = int(input("Número de habitación: "))
             if num_habitacion > 0:
@@ -33,9 +29,6 @@ def nova_reserva(reserva):
         except ValueError:
             print("Error! Número da habitación debe ser un número enteiro.")
 
-    # Add num_habitacion to Reserva object's datos dictionary
-    reserva.add_dato('num_habitacion', num_habitacion)
-    
     # Get data_ini and data_fin
     while True:
         try:
@@ -57,10 +50,7 @@ def nova_reserva(reserva):
         except ValueError:
             print("Error! As datas deben estar no formato dd/mm/aa.")
 
-    # Add data_ini and data_fin to Reserva object's datos dictionary
-    reserva.add_dato('data_ini', data_ini)
-    reserva.add_dato('data_fin', data_fin)
-    
+ 
     # Get prezo_habitacion
     while True:
         try:
@@ -72,36 +62,40 @@ def nova_reserva(reserva):
         except ValueError:
             print("Error! O prezo debe ser um número enteiro.")
 
-    # Add prezo_habitacion to Reserva object's datos dictionary
-    reserva.add_dato('prezo_habitacion', prezo_habitacion)
-    
-    # Get is_reserva_grupal and num_persoas
+ 
+
+        # Get is_reserva_grupal and num_persoas
     while True:
         is_reserva_grupal = input('Trátase dunha reserva grupal?[s/n]: ')
         if is_reserva_grupal.lower() == 's':
+            num_persoas = input('Dime o número de persoas da reserva: ')
+            while not num_persoas.isdigit():
+                print("Error! Por favor, introduce un número entero.")
+                num_persoas = input('Dime o número de persoas da reserva: ')
+            print("Reserva grupal: 10% de desconto por persoa ata un máximo de 50%")
+            reserva = Reserva_Grupal(codigo, num_habitacion, data_ini, data_fin, prezo_habitacion, int(num_persoas))
             break
         elif is_reserva_grupal.lower() == 'n':
-            print("Reserva grupal cancelada.")
-            return
+            print("Reserva individual")
+            reserva = Reserva_Individual(codigo, num_habitacion, data_ini, data_fin, prezo_habitacion)
+            break
         else:
             print("Error! O valor debe ser 's' ou 'n'.")
 
-    num_persoas = input('Dime o número de persoas da reserva: ')
-    while not num_persoas.isdigit():
-        print("Error! Por favor, introduce un número entero.")
-        num_persoas = input('Dime o número de persoas da reserva: ')
-
-    # Add is_reserva_grupal and num_persoas to Reserva object's datos dictionary
-    reserva.add_dato('is_reserva_grupal', is_reserva_grupal)
-    reserva.add_dato('num_persoas', num_persoas)
-
     print('Reserva finalizada')
     
+    reserva.print_reserva()
+    
+    return reserva
+    
 def mostrar_lista_reservas(reservas):
-    print("\nLista de Reservas:\n")
+    print(20*"#")
+    print("Lista de Reservas:")
+    print(20*"#")
     for reserva in reservas:
-        reserva.print_values()
+        reserva.print_reserva()
         print("\n")
-    print("\n")
+    print(20*"#")
+
 
     
