@@ -1,4 +1,4 @@
-from lib.funcionalidades import print_menu, nova_reserva, mostrar_lista_reservas, load_reservas
+from lib.funcionalidades import print_menu, nova_reserva, mostrar_lista_reservas, load_reservas, cancelar_reserva
 
 from lib.reserva import Reserva
 
@@ -22,6 +22,8 @@ while opcion!=6:
             #reserva = Reserva()  # Instancia la clase Reserva
             reserva = nova_reserva()  # Pasa la instancia de Reserva a nova_reserva
             lista_reservas.append(reserva)
+        case 2:
+            cancelar_reserva(lista_reservas)
         case 3:
             mostrar_lista_reservas(lista_reservas)
         case 6: 

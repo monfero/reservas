@@ -2,7 +2,7 @@ from lib.reserva import *
 
 def print_menu():
     print(f'(1) Nova reserva')
-    print(f'(2) Borrar reserva')
+    print(f'(2) Cancelar reserva')
     print(f'(3) Mostrar lista de reservas')
     print(f'(4) Mostrar Info de reserva')
     print(f'(5) Mostrar custo de reserva')
@@ -17,7 +17,7 @@ def pedir_codigo():
             break
         else:
             print("Error! Codigo debe ser al menos un caracter.")
-        return codigo
+    return codigo
 
 def pedir_num_habitacion():
     # Get numero de habitacion
@@ -132,3 +132,18 @@ def load_reservas():
         print("Non hai reservas gardadas.")
         return []
     
+def cancelar_reserva(lista_reservas):
+    mostrar_lista_reservas(lista_reservas)
+    print("\n")
+    codigo = input("Dame o código de reserva a cancelar: ")
+    if codigo in [r.codigo for r in lista_reservas]:
+        index = [r.codigo for r in lista_reservas].index(codigo)
+        del lista_reservas[index]
+        print("Reserva eliminada exitosamente.\n")
+        save_reservas(lista_reservas)
+    else:
+        print("Error! Non se encontrou a reserva no sistema.")
+
+def save_reservas(lista):
+    with open('reservas.json', 'w') as file:
+        json.dump([{'codigo': r.codigo, 'num_habitacion': r.num_habitacion, 'data_ini': r.data_ini, 'data_fin': r.data_fin, 'prezo_habitacion': r.prezo_habitacion} if isinstance(r, Reserva_Individual) else {'codigo': r.codigo, 'num_habitacion': r.num_habitacion, 'data_ini': r.data_ini, 'data_fin': r.data_fin, 'prezo_habitacion': r.prezo_habitacion, 'num_persoas': r.num_persoas} for r in lista], file)
