@@ -106,7 +106,7 @@ class Reserva_Individual(Reserva):
     
     def print_reserva(self):
         super().print_reserva()
-        print(f"Custo Reserva: {self.get_custo_reserva()}")
+        print(f"Custo Reserva: {self.get_custo_reserva():.2f}€")
   
 
 
@@ -129,7 +129,7 @@ class Reserva_Grupal(Reserva):
 
     def print_reserva(self):
         super().print_reserva()
-        print(f"Custo Reserva: {self.get_custo_reserva()}")
+        print(f"Custo Reserva: {self.get_custo_reserva():.2f}€")
 
     def export_to_json(self):
         """

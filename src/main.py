@@ -1,11 +1,12 @@
-from lib.funcionalidades import print_menu, nova_reserva, mostrar_lista_reservas
+from lib.funcionalidades import print_menu, nova_reserva, mostrar_lista_reservas, load_reservas
 
 from lib.reserva import Reserva
 
 print("Benvido ao servizo de reservas")
 
 opcion=0
-lista_reservas=[]
+# load_reservas() carga a lista de reservas do ficheiro reservas.json e devolve unha lista coas instancias das clases Reserva
+lista_reservas=load_reservas()
 
 while opcion!=6:
     print_menu()
@@ -23,5 +24,7 @@ while opcion!=6:
             lista_reservas.append(reserva)
         case 3:
             mostrar_lista_reservas(lista_reservas)
+        case 6: 
+            print("Grazas por usar o servizo de reservas!")
         case other: 
             print('Opción non dispoñible')

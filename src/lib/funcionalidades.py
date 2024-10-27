@@ -8,18 +8,20 @@ def print_menu():
     print(f'(5) Mostrar custo de reserva')
     print(f'(6) Saír')
 
-def nova_reserva():
-    print(f'Engadir reserva')
-    
+
+def pedir_codigo():
+    # Get codigo
     while True:
-       # Get codigo
-        while True:
-            codigo = input("Dame o codigo: ")
-            if len(codigo.strip()) > 0:
-                break
-            else:
-                print("Error! Codigo debe ser al menos un caracter.")
-            
+        codigo = input("Dame o codigo: ")
+        if len(codigo.strip()) > 0:
+            break
+        else:
+            print("Error! Codigo debe ser al menos un caracter.")
+        return codigo
+
+def pedir_num_habitacion():
+    # Get numero de habitacion
+    while True:
         try:
             num_habitacion = int(input("Número de habitación: "))
             if num_habitacion > 0:
@@ -28,8 +30,10 @@ def nova_reserva():
                 print("Error! Número da habitación debe ser maior que 0.")
         except ValueError:
             print("Error! Número da habitación debe ser un número enteiro.")
+    return num_habitacion
 
-    # Get data_ini and data_fin
+def pedir_datas():
+# Get data_ini and data_fin
     while True:
         try:
             from datetime import datetime
@@ -48,9 +52,10 @@ def nova_reserva():
             else:
                 print("Error! Ambas datas deben ter algún caracter.")
         except ValueError:
-            print("Error! As datas deben estar no formato dd/mm/aa.")
+            print("Error! As datas deben estar no formato dd/mm/aaaaa.")
+    return [data_ini,data_fin]
 
- 
+def pedir_prezo_habitacion():
     # Get prezo_habitacion
     while True:
         try:
@@ -61,10 +66,22 @@ def nova_reserva():
                 print("Error! O prezo debe ser maior que 0.")
         except ValueError:
             print("Error! O prezo debe ser um número enteiro.")
-
+    return prezo_habitacion
  
 
-        # Get is_reserva_grupal and num_persoas
+
+def nova_reserva():
+    print(f'Engadir reserva')
+    
+    codigo = pedir_codigo()           
+    num_habitacion = pedir_num_habitacion()
+    datas = pedir_datas()
+    data_ini = datas[0]
+    data_fin = datas[1]
+    prezo_habitacion = pedir_prezo_habitacion()
+
+
+    # Get is_reserva_grupal and num_persoas
     while True:
         is_reserva_grupal = input('Trátase dunha reserva grupal?[s/n]: ')
         if is_reserva_grupal.lower() == 's':
@@ -99,5 +116,19 @@ def mostrar_lista_reservas(reservas):
         print("\n")
     print(20*"#")
 
-
+def load_reservas():
+    try:
+        with open('reservas.json', 'r') as file:
+            data = json.load(file)
+            reservas = []
+            for reserva in data:
+                if 'num_persoas' in reserva:
+                    r = Reserva_Grupal(reserva['codigo'], reserva['num_habitacion'], reserva['data_ini'], reserva['data_fin'], reserva['prezo_habitacion'], reserva['num_persoas'])
+                else:
+                    r = Reserva_Individual(reserva['codigo'], reserva['num_habitacion'], reserva['data_ini'], reserva['data_fin'], reserva['prezo_habitacion'])
+                reservas.append(r)
+            return reservas
+    except FileNotFoundError:
+        print("Non hai reservas gardadas.")
+        return []
     
