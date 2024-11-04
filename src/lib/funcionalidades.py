@@ -6,7 +6,8 @@ def print_menu():
     print(f'(3) Mostrar lista de reservas')
     print(f'(4) Mostrar Info de reserva')
     print(f'(5) Mostrar custo de reserva')
-    print(f'(6) Saír')
+    print(f'(6) Modificar reserva')
+    print(f'(7) Saír')
 
 
 def pedir_codigo():
@@ -146,6 +147,71 @@ def mostrar_custo_reserva(reservas):
         if str(reserva.codigo) == codigo:
             custo_total = reserva.get_custo_reserva()
             print(f"O custo total da reserva con código {codigo} é de {custo_total:.2f} €.\n")
+            encontrado = True
+            break
+    
+    if not encontrado:
+        print("Reserva non encontrada.")
+
+def validar_data(data):
+    try:
+         datetime.strptime(data, '%d/%m/%Y')
+         return True
+    except ValueError:
+         return False
+
+def modificar_reserva(reservas):
+    codigo = input("Introduce o código da reserva que desexas modificar: ")
+    while not codigo.isdigit():
+        print("Error! Por favor, introduce un número.")
+        codigo = input("Introduce o código da reserva que desexas modificar: ")
+    
+    encontrado = False
+    for reserva in reservas:
+        if str(reserva.codigo) == codigo:
+            print("\n")
+            print("1. Modificar número de habitación")
+            print("2. Modificar data de entrada")
+            print("3. Modificar data de saída")
+            print("4. Modificar prezo da habitación")
+            print("5. Cancelar")
+            opcion = input("Elige una opción: ")
+            
+            while not opcion in ['1', '2', '3', '4', '5', '6']:
+                print("Error! Por favor, introduce un número válido.")
+                opcion = input("Elige una opción: ")
+            
+            if opcion == '1':
+                novo_num_habitacion = pedir_num_habitacion()
+                reserva.set_num_habitacion(novo_num_habitacion)
+            if opcion == '2':
+                nova_data_entrada = input("Introduce a nova data de entrada (formato dd/mm/aaaa): ")
+                while not validar_data(nova_data_entrada):
+                    print("Error! Data non válida. Introduce unha data no formato dd/mm/aaaa.")
+                    nova_data_entrada = input("Introduce a nova data de entrada (formato dd/mm/aaaa): ")
+                reserva.set_data_ini(nova_data_entrada)
+            elif opcion == '3':
+                nova_data_saida = input("Introduce a nova data de saída (formato dd/mm/aaaa): ")
+                while not validar_data(nova_data_saida):
+                    print("Error! Data non válida. Introduce unha data no formato dd/mm/aaaa.")
+                    nova_data_saida = input("Introduce a nova data de saída (formato dd/mm/aaaa): ")
+                reserva.set_data_fin(nova_data_entrada)
+            elif opcion == '4':
+                novo_prezo = pedir_prezo_habitacion()
+                reserva.set_prezo_habitacion(novo_prezo)
+            # elif opcion == '4':
+            #     novas_persoas = input("Introduce o novo número de persoas: ")
+            #     while not novas_persoas.isdigit():
+            #         print("Error! Por favor, introduce un número.")
+            #         novas_persoas = input("Introduce o novo número de persoas: ")
+            #     reserva.num_persoas = int(novas_persoas)
+            elif opcion == '5':
+                print("Cancelando a modificación da reserva...")
+                return
+            
+            print("\n")
+            reserva.print_reserva()
+            save_reservas(reservas)
             encontrado = True
             break
     

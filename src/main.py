@@ -1,4 +1,4 @@
-from lib.funcionalidades import mostrar_detalle_reserva, print_menu, nova_reserva, mostrar_lista_reservas, load_reservas, cancelar_reserva, mostrar_custo_reserva
+from lib.funcionalidades import mostrar_detalle_reserva, print_menu, nova_reserva, mostrar_lista_reservas, load_reservas, cancelar_reserva, mostrar_custo_reserva, modificar_reserva
 
 from lib.reserva import Reserva
 
@@ -8,7 +8,7 @@ opcion=0
 # load_reservas() carga a lista de reservas do ficheiro reservas.json e devolve unha lista coas instancias das clases Reserva
 lista_reservas=load_reservas()
 
-while opcion!=6:
+while opcion!=7:
     print_menu()
     while True:  # Iteramos ata que o usuario insira un enteiro válido
         try:
@@ -31,6 +31,8 @@ while opcion!=6:
         case 5:
             mostrar_custo_reserva(lista_reservas)
         case 6: 
+            modificar_reserva(lista_reservas)
+        case 7:
             print("Grazas por usar o servizo de reservas!")
         case other: 
             print('Opción non dispoñible')
