@@ -116,6 +116,42 @@ def mostrar_lista_reservas(reservas):
         print("\n")
     print(20*"#")
 
+def mostrar_detalle_reserva(reservas):
+    codigo = input("Introduce o código da reserva que desexas ver: ")
+    while not codigo.isdigit():
+        print("Error! Por favor, introduce un número.")
+        codigo = input("Introduce o código da reserva que desexas ver: ")
+    
+    print("\n")
+    encontrado = False
+    for reserva in reservas:
+        if str(reserva.codigo) == codigo:
+            reserva.print_reserva()
+            print("\n")
+            encontrado = True
+            break
+    
+    if not encontrado:
+        print("Reserva non encontrada.")
+
+def mostrar_custo_reserva(reservas):
+    codigo = input("Introduce o código da reserva que desexas ver: ")
+    while not codigo.isdigit():
+        print("Error! Por favor, introduce un número.")
+        codigo = input("Introduce o código da reserva que desexas ver: ")
+    
+    print("\n")
+    encontrado = False
+    for reserva in reservas:
+        if str(reserva.codigo) == codigo:
+            custo_total = reserva.get_custo_reserva()
+            print(f"O custo total da reserva con código {codigo} é de {custo_total:.2f} €.\n")
+            encontrado = True
+            break
+    
+    if not encontrado:
+        print("Reserva non encontrada.")
+
 def load_reservas():
     try:
         with open('reservas.json', 'r') as file:

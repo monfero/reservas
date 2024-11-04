@@ -1,4 +1,4 @@
-from lib.funcionalidades import print_menu, nova_reserva, mostrar_lista_reservas, load_reservas, cancelar_reserva
+from lib.funcionalidades import mostrar_detalle_reserva, print_menu, nova_reserva, mostrar_lista_reservas, load_reservas, cancelar_reserva, mostrar_custo_reserva
 
 from lib.reserva import Reserva
 
@@ -26,6 +26,10 @@ while opcion!=6:
             cancelar_reserva(lista_reservas)
         case 3:
             mostrar_lista_reservas(lista_reservas)
+        case 4:
+            mostrar_detalle_reserva(lista_reservas)
+        case 5:
+            mostrar_custo_reserva(lista_reservas)
         case 6: 
             print("Grazas por usar o servizo de reservas!")
         case other: 
